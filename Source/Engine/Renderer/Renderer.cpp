@@ -1,6 +1,8 @@
 #include "Renderer.h"
 #include "Texture.h"
 
+SDL_GLContext m_context;
+
 namespace neu {
     /// <summary>
     /// Initializes the SDL video subsystem and the SDL_ttf font library.
@@ -30,7 +32,7 @@ namespace neu {
     /// </summary>
     void Renderer::Shutdown() {
         TTF_Quit();                         // Shutdown SDL_ttf
-        SDL_DestroyRenderer(m_renderer);    // Destroy the renderer
+        SDL_GL_DestroyContext(m_context);   // Destroy the OpenGL context
         SDL_DestroyWindow(m_window);        // Destroy the window
         SDL_Quit();                         // Shutdown SDL
     }
@@ -51,13 +53,36 @@ namespace neu {
         m_height = height;
 
         // Create the SDL window
-        m_window = SDL_CreateWindow(name.c_str(), width, height, fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
+        m_window = SDL_CreateWindow(name.c_str(), width, height, SDL_WINDOW_OPENGL | (fullscreen ? SDL_WINDOW_FULLSCREEN : 0));
         if (m_window == nullptr) {
             LOG_ERROR("SDL_CreateWindow Error: {}", SDL_GetError());
             SDL_Quit();
             return false;
         }
 
+        // OpenGL
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+
+        SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+        SDL_GL_SetSwapInterval(1);
+
+        m_context = SDL_GL_CreateContext(m_window);
+        if (m_context == nullptr) {
+            LOG_ERROR("SDL_CreateWindow Error: {}", SDL_GetError());
+            SDL_Quit();
+            return false;
+        }
+        gladLoadGL();
+
+        glViewport(0, 0, width, height);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
+
+        return true;
+        /*
         // Create the SDL renderer associated with the window
         m_renderer = SDL_CreateRenderer(m_window, NULL);
         if (m_renderer == nullptr) {
@@ -76,6 +101,7 @@ namespace neu {
         SDL_SetRenderLogicalPresentation(m_renderer, width, height, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
         return true;
+        */
     }
 
     /// <summary>
@@ -211,7 +237,8 @@ namespace neu {
     /// Call this at the beginning of each frame to clear the previous frame's contents.
     /// </summary>
     void Renderer::Clear() {
-        SDL_RenderClear(m_renderer);
+        glClearColor(0.53f, 0.81f, 0.98f, 1);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     /// <summary>
@@ -220,6 +247,6 @@ namespace neu {
     /// Uses double buffering: renders to back buffer, then swaps to front buffer for display.
     /// </summary>
     void Renderer::Present() {
-        SDL_RenderPresent(m_renderer);
+        SDL_GL_SwapWindow(m_window);
     }
 }
