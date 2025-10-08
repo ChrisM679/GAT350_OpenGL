@@ -82,26 +82,6 @@ namespace neu {
         glDepthFunc(GL_LESS);
 
         return true;
-        /*
-        // Create the SDL renderer associated with the window
-        m_renderer = SDL_CreateRenderer(m_window, NULL);
-        if (m_renderer == nullptr) {
-            LOG_ERROR("SDL_CreateRenderer Error: {}", SDL_GetError());
-            SDL_DestroyWindow(m_window);
-            SDL_Quit();
-            return false;
-        }
-
-        // Enable VSync (vertical sync) to synchronize rendering with monitor refresh rate
-        // 1 = VSync on, 0 = VSync off
-        SDL_SetRenderVSync(m_renderer, 1);
-
-        // Set up logical presentation for resolution-independent rendering
-        // Letterbox mode adds black bars to maintain aspect ratio when window is resized
-        SDL_SetRenderLogicalPresentation(m_renderer, width, height, SDL_LOGICAL_PRESENTATION_LETTERBOX);
-
-        return true;
-        */
     }
 
     /// <summary>
