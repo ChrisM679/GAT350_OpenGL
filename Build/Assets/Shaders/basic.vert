@@ -1,13 +1,14 @@
 #version 460 core
 
-layout(location = 0) in vec3 positon;
-//layout(location = 1) in vec3 color;
-//layout(location = 2) in vec2 uv;
+layout(location = 0) in vec3 a_positon;
+layout(location = 1) in vec3 a_color;
+//layout(location = 2) in vec2 a_uv;
 
-//out vec3 ocolor;
+out vec3 v_ocolor;
+uniform float u_time;
 
 void main()
 {
-	//ocolor = color;
-	gl_Position = vec4(positon, 1.0);
+	v_ocolor = a_color;
+	gl_Position = vec4(a_positon * tan(u_time), 1.0);
 }
