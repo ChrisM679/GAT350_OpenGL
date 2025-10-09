@@ -67,21 +67,21 @@ int main(int argc, char* argv[]) {
         // update
         neu::GetEngine().Update();
 
-        /*
-    float angle = neu::GetEngine().GetTime().GetTime() * 90.0f;
-    float scale = neu::math::Remap(-1.0f, 1.0f, 0.3f, 1.5f, neu::math::sin(neu::GetEngine().GetTime().GetTime());
-    neu::vec2 mouse = neu::GetEngine().GetInput().GetMousePosition();
-    neu::vec3 position;
-    position.x = neu::math::Remap(0.0f, (float)neu::GetEngine().GetRenderer().GetWidth(), -1.0f, 1.0f);
-    position.y = -neu::math::Remap(0.0f, (float)neu::GetEngine().GetRenderer().GetWidth(), -1.0f, 1.0f);
-    */
+        
+        float angle = neu::GetEngine().GetTime().GetTime() * 90.0f;
+        float scale = neu::math::Remap(-1.0f, 1.0f, 0.3f, 1.5f, neu::math::sin(neu::GetEngine().GetTime().GetTime()));
+        neu::vec2 mouse = neu::GetEngine().GetInput().GetMousePosition();
+        neu::vec3 position;
+        position.x = neu::math::Remap(0.0f, (float)neu::GetEngine().GetRenderer().GetWidth(), -1.0f, 1.0f, mouse.x);
+        position.y = -neu::math::Remap(0.0f, (float)neu::GetEngine().GetRenderer().GetWidth(), -1.0f, 1.0f, mouse.y);
+    
 
         if (neu::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
 
         // draw
         neu::GetEngine().GetRenderer().Clear();
 
-        /*
+        
 		glLoadIdentity();
 		glPushMatrix();
 
@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
 		glPopMatrix();
 
         glEnd();
-        */
+        
 
         neu::GetEngine().GetRenderer().Present();
     }
