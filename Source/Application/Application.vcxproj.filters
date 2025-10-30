@@ -17,6 +17,9 @@
     <Filter Include="Assets\Materials">
       <UniqueIdentifier>{ae95fa74-2325-4699-95e8-fb38d865af98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets\Scenes">
+      <UniqueIdentifier>{2bfe80f1-0182-4c31-9d74-5221b670e9ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -58,6 +61,9 @@
     </None>
     <None Include="..\..\Build\Assets\Shaders\basic_phong.prog">
       <Filter>Assets\Shaders</Filter>
+    </None>
+    <None Include="..\..\Build\Assets\Scenes\scene01.json">
+      <Filter>Assets\Scenes</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
