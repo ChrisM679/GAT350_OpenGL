@@ -50,5 +50,5 @@ vec3 calculateLight(in vec3 position, in vec3 normal)
 void main()
 {
 	vec3 color = calculateLight(v_position, v_normal);
-	f_color = vec4(color,1); //texture(u_texture, v_texcoord) * vec4(color, 1);
+	f_color = texture(u_texture, v_texcoord) * vec4(color, 1);
 }

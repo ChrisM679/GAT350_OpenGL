@@ -4,8 +4,11 @@ layout (location = 0) in vec3 a_position;
 layout (location = 1) in vec2 a_texcoord;
 layout (location = 2) in vec3 a_normal;
 
-out vec2 v_texcoord;
-flat out vec3 v_color;
+out VS_OUT
+{
+	vec2 texcoord;
+	vec3 color;
+} vs_out;
 
 uniform mat4 u_model;
 uniform mat4 u_view;
@@ -17,6 +20,8 @@ uniform struct Light
 {
 	vec3 position;
 	vec3 color;
+	float intensity;
+	float range;
 } u_light;
 
 uniform struct Material 
@@ -43,18 +48,19 @@ vec3 calculateLight(in vec3 position, in vec3 normal)
 	intensity = pow(intensity, u_material.shininess);
 	vec3 specular = vec3(intensity);
 
-	return u_ambient_light + diffuse + specular;
+	return (diffuse + specular) * u_light.intensity;
 }
 
 void main()
 {
-	v_texcoord = a_texcoord * u_material.tiling + u_material.offset;
+	vs_out.texcoord = a_texcoord * u_material.tiling + u_material.offset;
 
 	mat4 model_view = u_view * u_model;
 	vec3 position = vec3(model_view * vec4(a_position, 1));
 	vec3 normal = normalize(mat3(model_view) * a_normal);
 
-	v_color = calculateLight(position,normal);
+	vs_out.color = u_ambient_light;
+	vs_out.color += calculateLight(position,normal);
 
 	gl_Position = u_projection * u_view * u_model * vec4(a_position, 1.0);
 }
