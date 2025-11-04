@@ -14,6 +14,9 @@ int main(int argc, char* argv[]) {
     // initialize scene
     auto scene = std::make_unique<neu::Scene>();
     scene->Load("scenes/scene01.json");
+    scene->Start();
+
+    auto editor = std::make_unique<neu::Editor>();
 
     // MAIN LOOP
     while (!quit) {
@@ -29,30 +32,18 @@ int main(int argc, char* argv[]) {
         float dt = neu::GetEngine().GetTime().GetDeltaTime();
         if (neu::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) quit = true;
 
+        //scene
         scene->Update(dt);
 
-        // view matrix
-		//if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) camera.position.x += 1.0f * dt;
-		//if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_D)) camera.position.x -= 1.0f * dt;
-		//if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) camera.position.z += 1.0f * dt;
-		//if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_S)) camera.position.z -= 1.0f * dt;
-		//if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_Q)) camera.position.y += 1.0f * dt;
-		//if (neu::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_E)) camera.position.y -= 1.0f * dt;
+        //editor
+        editor->Begin();
+        editor->UpdateGui(*scene);
 
         // draw
         neu::GetEngine().GetRenderer().Clear();
 
-        // start new ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL3_NewFrame();
-        ImGui::NewFrame();
-
-        // set ImGui
-        ImGui::Begin("Editor");
-		ImGui::End();
-
         scene->Draw(neu::GetEngine().GetRenderer());
-
+        
         // draw ImGui
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
