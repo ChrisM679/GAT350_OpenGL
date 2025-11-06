@@ -18,8 +18,6 @@ uniform struct Material
 	vec2 offset;
 } u_material;
 
-//uniform sampler2D u_texture;
-
 void main()
 {
 	f_color = texture(u_material.baseMap, fs_in.texcoord) * vec4(fs_in.color, 1);

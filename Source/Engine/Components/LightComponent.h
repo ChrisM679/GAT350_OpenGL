@@ -11,9 +11,21 @@ namespace neu {
 		void Read(const serial_data_t& value) override;
 		void UpdateGui() override;
 
+		enum class LightType {
+			Point,
+			Directional,
+			Spot
+		};
+
+
+
 	public:
 		glm::vec3 color{ 1, 1, 1 };
 		float intensity{ 1 };
 		float range{ 20 };
+
+		LightType lightType = LightType::Point;
+		float innerCutoff = 30.0f;
+		float outerCutoff = 30.0f;
 	};
 }
