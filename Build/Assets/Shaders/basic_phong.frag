@@ -1,8 +1,20 @@
-#version 460 core
+#version 460 
 
-in vec2 v_texcoord;
-in vec3 v_position;
-in vec3 v_normal;
+#define POINT 0
+#define DIRECTIONAL 1
+#define SPOT 2
+
+in VS_OUT
+{
+	vec2 texcoord;
+	vec3 position;
+	vec3 normal;
+} fs_in;
+
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
+uniform vec3 u_ambient_light;
 
 out vec4 f_color;
 
@@ -16,39 +28,95 @@ uniform struct Material
 	vec2 offset;
 } u_material;
 
-uniform struct Light
+uniform struct Light 
 {
+	int type;
 	vec3 position;
+	vec3 direction;
 	vec3 color;
-} u_light;
+	float intensity;
+	float range;
+	float outerCutoff;
+	float innerCutoff;
+};
 
-uniform vec3 u_ambient_light;
-uniform sampler2D u_texture;
+uniform int u_numLights = 1;
+uniform Light u_lights[5];
 
-vec3 calculateLight(in vec3 position, in vec3 normal)
+float calculateAttenuation(in float light_distance, in float range)
 {
-	//diffuse
-	vec3 light_dir = normalize(u_light.position - position);
-	float intensity = max(dot(light_dir, normal), 0);
-	vec3 diffuse = u_light.color * u_material.baseColor * intensity;
+	float attenuation = max(0.0 ,(1.0 - (light_distance / range)));
+	return pow(attenuation, 2);
+}
 
+vec3 calculateLight(in Light light,in vec3 position, in vec3 normal)
+{
+	float attenuation;
+	vec3 light_dir;
+
+	switch (light.type)
+	{
+		case POINT:
+			{
+			light_dir = normalize(light.position - position);
+
+			float light_distance = length(light.position - position);
+			attenuation = calculateAttenuation(light_distance, light.range);
+			}
+		break;
+
+		case DIRECTIONAL:
+			light_dir = light.direction;
+		break;
+
+		case SPOT:
+			{
+			light_dir = normalize(light.position - position);
+
+			float light_distance = length(light.position - position);
+			attenuation = calculateAttenuation(light_distance, light.range);
+
+			float angle = acos(dot(light_dir, light.direction));
+			if (angle > light.outerCutoff) attenuation = 0.0;
+			else {
+				float spotAttenuation = smoothstep(light.outerCutoff, light.innerCutoff, angle);
+				attenuation *= spotAttenuation;
+			}
+			}
+		break;
+	}
+	
+	//diffuse
+	float NdotL = max(dot(normal, light_dir), 0);
+	vec3 diffuse = light.color * u_material.baseColor * NdotL ;
+ 
 	//specular
+	vec3 view_dir = normalize(-position);
+
+	//blinn phong
+	vec3 halfway_dir = normalize(light_dir + view_dir);
+	float NdotH = max(dot(normal, halfway_dir), 0);
+	NdotH = pow(NdotH, u_material.shininess);
+	vec3 specular = vec3(NdotH);
+
 	//phong
 	//vec3 reflection = reflect(-light_dir, normal);
-	//vec3 view_dir = normalize(-position);
-	//intensity = max(dot(reflection, view_dir), 0);
-	//blinn-phong
-	vec3 view_dir = normalize(-position);
-	vec3 halfway_dir = normalize(light_dir + view_dir);
-	intensity = max(dot(normal, halfway_dir), 0);
-	intensity = pow(intensity, u_material.shininess);
-	vec3 specular = vec3(intensity);
-
-	return u_ambient_light + diffuse + specular;
+	//float RdotV = max(dot(reflection, view_dir), 0);
+	//RdotV = pow(RdotV, u_material.shininess);
+	//vec3 specular = vec3(RdotV);
+ 
+	return (diffuse + specular) * light.intensity * attenuation;
 }
 
 void main()
 {
-	vec3 color = calculateLight(v_position, v_normal);
-	f_color = texture(u_texture, v_texcoord) * vec4(color, 1);
+	//vec3 color = calculateLight(fs_in.position, fs_in.normal);
+	//f_color = texture(u_material.baseMap, fs_in.texcoord) * vec4(color, 1);
+
+	vec3 color = u_ambient_light;
+	for (int i = 0; i < u_numLights; i++) 
+	{
+		color += calculateLight(u_lights[i], fs_in.position, fs_in.normal);
+	}
+	f_color = vec4(color, 1); //texture(u_material.baseMap, fs_in.texcoord) * vec4(color, 1);
 }
