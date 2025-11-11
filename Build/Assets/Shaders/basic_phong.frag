@@ -60,7 +60,7 @@ vec3 calculateNormal()
 	// generate the normals from the normal map
 	vec3 normal = texture(u_normalMap, fs_in.texcoord).rgb;
 	// convert rgb normal (0 <-> 1) to xyx (-1 <-> 1)
-	normal = normalize(normal);
+	normal = normalize((normal * 2) -1);
 	// transform normals to model view space
 	normal = normalize(fs_in.tbn * normal);
 
