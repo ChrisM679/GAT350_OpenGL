@@ -1,18 +1,18 @@
 {
   "actors": [
     {
-      "name": "IronMan",
+      "name": "Dragon",
       "persistent": true,
       "transform": {
         "position": [ 0, 0, 0 ],
         "rotation": [ 0, 0, 0 ],
-        "scale": [ 0.1, 0.1, 0.1 ]
+        "scale": [ 1, 1, 1 ]
       },
       "components": [
         {
           "type": "ModelRenderer",
-          "model": "Models/IronMan.obj",
-          "material": "Materials/spot.mat"
+          "model": "Models/Dragon.fbx",
+          "material": "Materials/lava.mat"
         }
       ]
     },
@@ -39,7 +39,7 @@
       "name": "light",
       "persistent": true,
       "transform": {
-        "position": [ 5, 5, 0 ],
+        "position": [ 0, 0, 0 ],
         "rotation": [ 1, 0, 0 ],
         "scale": [ 1, 1, 1 ]
       },
@@ -49,40 +49,6 @@
           "color": [ 1, 1, 0 ],
           "intensity": 2,
           "range": 20
-        }
-      ]
-    },
-    {
-      "name": "light",
-      "persistent": true,
-      "transform": {
-        "position": [ 5, 0, 0 ],
-        "rotation": [ 0, 0, 0 ],
-        "scale": [ 1, 1, 1 ]
-      },
-      "components": [
-        {
-          "type": "LightComponent",
-          "color": [ 0, 1, 0 ],
-          "intensity": 4,
-          "range": 10
-        }
-      ]
-    },
-    {
-      "name": "light",
-      "persistent": true,
-      "transform": {
-        "position": [ 5, 0, 0 ],
-        "rotation": [ 0, 0, 0 ],
-        "scale": [ 1, 1, 1 ]
-      },
-      "components": [
-        {
-          "type": "LightComponent",
-          "color": [ 0, 0, 1 ],
-          "intensity": 3,
-          "range": 40
         }
       ]
     }
