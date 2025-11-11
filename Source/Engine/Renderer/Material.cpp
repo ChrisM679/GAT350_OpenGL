@@ -63,6 +63,13 @@ namespace neu {
 			parameters = (Parameters)((uint32_t)parameters | (uint32_t)Parameters::BaseMap);
 		}
 
+		if (normalMap) {
+			normalMap->SetActive(GL_TEXTURE0);
+			normalMap->Bind();
+			program->SetUniform("u_normalMap", 3);
+			parameters = (Parameters)((uint32_t)parameters | (uint32_t)Parameters::BaseMap);
+		}
+
 		program->SetUniform("u_material.baseColor", baseColor);
 		program->SetUniform("u_material.emissiveColor", emissiveColor);
 		program->SetUniform("u_material.shininess", shininess);
