@@ -1,17 +1,17 @@
 {
   "actors": [
     {
-      "name": "Spot",
+      "name": "IronMan",
       "persistent": true,
       "transform": {
         "position": [ 0, 0, 0 ],
-        "rotation": [ 0, 180, 0 ],
-        "scale": [ 2, 2, 2 ]
+        "rotation": [ 0, 0, 0 ],
+        "scale": [ 0.1, 0.1, 0.1 ]
       },
       "components": [
         {
           "type": "ModelRenderer",
-          "model": "Models/spot.obj",
+          "model": "Models/IronMan.obj",
           "material": "Materials/spot.mat"
         }
       ]
