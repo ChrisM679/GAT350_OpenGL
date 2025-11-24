@@ -133,7 +133,7 @@
           "outputTexture": "postprocessTexture"
         },
         {
-          "type": "PostProcessComponet"
+          "type": "PostProcessComponent"
         },
         {
           "type": "FirstPersonController",

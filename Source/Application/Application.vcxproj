@@ -222,6 +222,7 @@
     <None Include="..\..\Build\Assets\Materials\postprocess.mat" />
     <None Include="..\..\Build\Assets\Materials\reflection.mat" />
     <None Include="..\..\Build\Assets\Materials\refraction.mat" />
+    <None Include="..\..\Build\Assets\Materials\rocks.mat" />
     <None Include="..\..\Build\Assets\Materials\rtt.mat" />
     <None Include="..\..\Build\Assets\Materials\skybox.mat" />
     <None Include="..\..\Build\Assets\Materials\spot.mat" />
