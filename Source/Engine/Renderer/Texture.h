@@ -1,6 +1,7 @@
 #pragma once
 #include "Resources/Resource.h"
 #include "Math/Vector2.h"
+#include "GUI/GUI.h"
 
 #include <glad/glad.h>
 #include <string>
@@ -28,6 +29,8 @@ namespace neu {
 		/// <returns>True if the texture was successfully loaded; otherwise, false</returns>
 		bool Load(const std::string& filename);
 
+		void UpdateGui() override;
+
 		void SetActive(GLuint unit) { glActiveTexture(unit); }
 		void Bind() { glBindTexture(m_target, m_texture); }
 
@@ -35,7 +38,7 @@ namespace neu {
 		/// Gets the dimensions of the texture in pixels.
 		/// </summary>
 		/// <returns>A vec2 containing the width and height of the texture</returns>
-		vec2 GetSize() { return m_size;  }
+		glm::ivec2 GetSize() { return m_size;  }
 
 		// Allow Renderer class to access the texture for drawing operations
 		friend class Renderer;
@@ -43,8 +46,6 @@ namespace neu {
 		GLuint m_texture = 0;
 		GLenum m_target = GL_TEXTURE_2D;
 
-	private:
-		// The dimensions of the texture in pixels
-		vec2 m_size{ 0, 0 };
+		glm::ivec2 m_size{ 0, 0 };
 	};
 }

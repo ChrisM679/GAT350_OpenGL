@@ -14,6 +14,8 @@ namespace neu {
 		TextureAnimation() = default;
 		~TextureAnimation() = default;
 
+		void UpdateGui() override {};
+
 		/// <summary>
 		/// Loads animation data from a JSON file and the associated sprite sheet texture.
 		/// The JSON file should contain: texture_name, columns, rows, start_frame, 
@@ -29,7 +31,7 @@ namespace neu {
 		/// Calculated by dividing the texture size by the number of columns and rows.
 		/// </summary>
 		/// <returns>A vec2 containing the frame width (x) and height (y)</returns>
-		vec2 GetSize() const;
+		glm::vec2 GetSize() const;
 
 		/// <summary>
 		/// Gets the rectangle (UV coordinates) for a specific frame in the sprite sheet.

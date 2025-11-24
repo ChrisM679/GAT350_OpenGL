@@ -19,6 +19,8 @@ namespace neu {
 			glm::vec3 tangent;
 		};
 
+		void UpdateGui() override {};
+
 		bool Load(const std::string& filename);
 		void Draw(GLenum primitiveType = GL_TRIANGLES);
 

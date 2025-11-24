@@ -11,6 +11,8 @@ namespace neu
 		VertexBuffer();
 		virtual ~VertexBuffer();
 
+		void UpdateGui() override {};
+
 		void Draw(GLenum primitiveType = GL_TRIANGLES);
 		void Bind() { glBindVertexArray(m_vao); }
 

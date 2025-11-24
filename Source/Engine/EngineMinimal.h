@@ -54,6 +54,7 @@
 #include "Renderer/VertexBuffer.h"
 #include "Renderer/Model.h"
 #include "Renderer/Material.h"
+#include "Renderer/RenderTexture.h"
 
 // physics
 #include "Physics/Collidable.h"
@@ -61,6 +62,7 @@
 // componednts
 #include "Components/ModelRenderer.h"
 #include "Components/CameraComponent.h"
+#include "Components/PostProcessComponent.h"
 #include "Components/LightComponent.h"
 #include "Components/FirstPersonController.h"
 #include "Components/RotationComponent.h"

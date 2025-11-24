@@ -7,7 +7,7 @@ namespace neu {
 	class Program;
 	class Texture;
 
-	class Material : public Resource, GUI {
+	class Material : public Resource {
 	public:
 		Material() = default;
 		~Material() = default;
@@ -39,7 +39,7 @@ namespace neu {
 		res_t<Texture> normalMap;
 		res_t<Texture> cubeMap;
 
-		float ior = 1.3f;
+		float ior = 1.05f;
 
 		Parameters parameters = Parameters::None;
 	};

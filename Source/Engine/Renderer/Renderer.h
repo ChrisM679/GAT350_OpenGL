@@ -16,10 +16,12 @@ namespace neu {
 	/// drawing primitives (lines, points), rendering textures, and presenting frames.
 	/// This class wraps SDL3's rendering functionality with a simplified interface.
 	/// </summary>
-	class Renderer
+	class Renderer : public GUI
 	{
 	public:
 		Renderer() = default;
+
+		void UpdateGui() override {};
 
 		/// <summary>
 		/// Initializes SDL video and TTF (TrueType font) systems.

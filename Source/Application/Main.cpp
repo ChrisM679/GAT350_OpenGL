@@ -11,15 +11,28 @@ int main(int argc, char* argv[]) {
     SDL_Event e;
     bool quit = false;
 
+    auto renderTetxure = std::make_shared<neu::RenderTexture>();
+    renderTetxure->Create(512, 512);
+    neu::Resources().AddResource("renderTexture", renderTetxure);
+
+    renderTetxure = std::make_shared<neu::RenderTexture>();
+    renderTetxure->Create(1024, 1024);
+    neu::Resources().AddResource("postprocessTexture", renderTetxure);
+
+    renderTetxure = std::make_shared<neu::RenderTexture>();
+    renderTetxure->CreateDepth(1024, 1024);
+    neu::Resources().AddResource("shadowTexture", renderTetxure); 
+
     // initialize scene
     auto scene = std::make_unique<neu::Scene>();
-    scene->Load("scenes/scene01.json");
+    scene->Load("scenes/scene02.json");
     scene->Start();
 
     auto editor = std::make_unique<neu::Editor>();
 
     // MAIN LOOP
     while (!quit) {
+
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_EVENT_QUIT) {
                 quit = true;
@@ -40,8 +53,6 @@ int main(int argc, char* argv[]) {
         editor->UpdateGui(*scene);
 
         // draw
-        neu::GetEngine().GetRenderer().Clear();
-
         scene->Draw(neu::GetEngine().GetRenderer());
         
         // draw ImGui

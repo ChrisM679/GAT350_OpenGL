@@ -16,6 +16,7 @@ namespace neu {
 		ImGui::Begin("Scene");
 		scene.UpdateGui();
 		ImGui::Separator();
+
 		//display all actors
 		int index = 0;
 		for (auto& actor : scene.m_actors)
@@ -30,6 +31,20 @@ namespace neu {
 		}
 		ImGui::End();
 
+		//assets
+		ImGui::Begin("Assets");
+		auto resources = Resources().GetByType();
+		index = 0;
+		for (auto resource : resources) {
+			ImGui::PushID(index++);
+			if (ImGui::Selectable(resource->name.c_str(), resource == m_selected))
+			{
+				m_selected = resource;
+			}
+			ImGui::PopID();
+		}
+		ImGui::End();
+
 		//inspector
 		ImGui::Begin("Inspector");
 		if (m_selected)
@@ -39,5 +54,9 @@ namespace neu {
 		ImGui::End();
 
 		ImGui::PopStyleColor();
+	}
+	void Editor::ShowTexture(const Texture& texture, float width, float height)
+	{
+		ImGui::Image((ImTextureID)texture.m_texture, ImVec2(width, height));
 	}
 }

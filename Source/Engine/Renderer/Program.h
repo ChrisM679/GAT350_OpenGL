@@ -13,6 +13,8 @@ namespace neu {
 		Program();
 		~Program();
 
+		void UpdateGui() override {};
+
 		bool Load(const std::string& filename);
 		void AttachShader(const res_t<Shader>& shader);
 
