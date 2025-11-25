@@ -1,8 +1,9 @@
 {
-	"program" : "shaders/basic_phong.prog",
+	"program": "shaders/basic_phong_shadow.prog",
 	"baseMap": "textures/spot_diffuse.png",
+	"shadowMap": "shadowTexture",
 	"baseColor": [ 1, 1, 1 ],
-	"shininess" : 16,
-	"tiling" : [ 1 , 1 ],
-	"offset" : [ 0 , 0 ]
+	"shininess": 16,
+	"tiling": [ 1, 1 ],
+	"offset": [ 0, 0 ]
 }
